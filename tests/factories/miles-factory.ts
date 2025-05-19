@@ -18,8 +18,8 @@ import { Trip, Location, ServiceClass,  AffiliateStatus } from "../../src/protoc
 // 	date: string;         // data da viagem no formato yyyy-MM-DD
 // }
 
-export function createNewTrip(teste): Trip {
-    return {
+export function createNewTrip() {
+    const trip = {
       code: faker.string.alphanumeric(),
       origin: {
         lat: createLocation().lat,
@@ -35,11 +35,41 @@ export function createNewTrip(teste): Trip {
       affiliate: faker.helpers.enumValue(AffiliateStatus),
       date: "2050-02-22"
     };
+
+    const miles = createMiles()
+
+    return { trip, miles }
   }
+  
+export function createNewTripCalc() {
+  const trip: Trip = {
+    code: faker.string.alphanumeric(),
+    origin: createLocation(),
+    destination: createLocation(),
+    miles: false,
+    plane: faker.airline.airplane().name,
+    service: ServiceClass.ECONOMIC,
+    affiliate: AffiliateStatus.BRONZE,
+    date: "2050-02-22"
+  };
+  
+  return trip;
+}
+
+// {
+//   lat: number;
+//   long: number;
+// };
 
 function createLocation(): Location {
     return {
       lat: faker.location.latitude(),
       long: faker.location.longitude(),
     };
+  }
+
+function createMiles() {
+    const miles = faker.number.int()
+
+    return miles
   }
